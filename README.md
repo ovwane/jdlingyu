@@ -5,7 +5,7 @@
 - 需要安装requests第三方模块 `pip install requests`
 - site.py支持多线程，默认5个线程，-j参数可指定线程数
 - 线程数不宜过多，会导致http连接数过多，服务器拒绝连接，还可能被拉小黑屋
-- 引入argparse模块
+- 引入argparse模块，解析命令行参数
 
 ## 用法
 - `git clone https://github.com/zfl9/jdlingyu.git`

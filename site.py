@@ -72,6 +72,7 @@ def jdlingyu():
         handler.setFormatter(formatter)
         logger.addHandler(handler)
 
+    # 定义http_headers
     headers={
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36',
     'Connection':'close'
@@ -99,6 +100,7 @@ def jdlingyu():
     exclude_2=set(re_exclude_2_all_pic)
     ex_pic=exclude_1 & exclude_2
 
+    # 获取theme列表
     def capture_theme(page_url):
         r_page=requests.get(page_url,headers=headers)
         r_page.encoding='utf-8'
@@ -115,6 +117,7 @@ def jdlingyu():
         if not os.path.isdir(page_path):
             os.mkdir(page_path)
         
+        # 并发下载theme列表中的所有图片
         def capture(url):
             try:
                 r=requests.get(url,headers=headers)
@@ -145,6 +148,7 @@ def jdlingyu():
                             logger.error(e)
             except Exception as e:
                 logger.error(e)
+
         threads=[]
         for theme in themes:
             t=threading.Thread(target=capture,args=(theme,))
@@ -155,6 +159,7 @@ def jdlingyu():
             if thr.isAlive():
                 thr.join()
     
+    # 获取page列表
     index_url='http://www.jdlingyu.moe'
     r_index=requests.get(index_url,headers=headers)
     r_index.encoding='utf-8'
