@@ -12,44 +12,56 @@
 __author__ = 'Otokaze 738158186@qq.com'
 
 def jdlingyu(threads_num):
-
     import requests,html,re,os,threading,sys,logging
 
-    logger=logging.getLogger(os.path.abspath(__file__))
-    logger.setLevel(logging.ERROR)
-    handler=logging.FileHandler('jdlingyu_site_multithread.log')
-    handler.setLevel(logging.ERROR)
-    formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    # argparse
+    parser=argparse.ArgumentParser(description='parse pictures from http://www.jdlingyu.moe')
+    parser.add_argument('-o', '--output_path', help='Specify file save path', default=os.path.join(os.path.abspath('.'), 'download'))
+    parser.add_argument('-l', '--log', help='save log to file', action='store_true')
+    parser.add_argument('-q', '--quiet', help='Do not display output information', action='store_true')
+    parser.add_argument('-v', '--version', help='Display program version', action='version', version='jdlingyu.py v2.0')
+    args=parser.parse_args()
+
+    # 参数检查 - log
+    if args.log:
+        logger=logging.getLogger(os.path.abspath(__file__))
+        logger.setLevel(logging.ERROR)
+        handler=logging.FileHandler('{}.log'.format(os.path.splitext(__file__)[0]))
+        handler.setLevel(logging.ERROR)
+        formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+    # 参数检查 - path
+    main_path_pre=args.output_path.strip()
+    current_os=os.name
+    if current_os == 'posix':
+        re_chk_path=re.compile(r'^\/.*')
+        re_chk_path_current=re.compile(r'^[^\/].*')
+        chk_path=re.search(re_chk_path,main_path_pre)
+        chk_path_current=re.search(re_chk_path_current,main_path_pre)
+        if chk_path != None:
+            main_path=main_path_pre
+            if not os.path.isdir(main_path):
+                os.mkdir(main_path)
+        elif chk_path_current != None:
+            main_path=os.path.join(os.path.abspath('.'), main_path_pre)
+            if not os.path.isdir(main_path):
+                os.mkdir(main_path)
+
+    elif current_os == 'nt':
+        re_chk_path=re.compile(r'^[c-zC-Z]:/[^\s].*$')
+        re_chk_path_current=re.compile(r'')
+        chk_path=re.search(re_chk_path,main_path)
+        if chk_path != None:
+            if not os.path.isdir(main_path):
+                os.mkdir(main_path)
+            break
 
     headers={
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36',
     'Connection':'close'
     }
-
-    current_os=os.name
-    if current_os == 'posix':
-        path_format=r'/root/jdlingyu'
-    elif current_os == 'nt':
-        path_format=r'd:/jdlingyu'
-
-    while True:
-        main_path=input('save_path(eg: %s): ' % path_format).strip()
-        if current_os == 'posix':
-            re_chk_path=re.compile(r'^/[^/\s].*$')
-            chk_path=re.search(re_chk_path,main_path)
-            if chk_path != None:
-                if not os.path.isdir(main_path):
-                    os.mkdir(main_path)
-                break
-        elif current_os == 'nt':
-            re_chk_path=re.compile(r'^[c-zC-Z]:/[^\s].*$')
-            chk_path=re.search(re_chk_path,main_path)
-            if chk_path != None:
-                if not os.path.isdir(main_path):
-                    os.mkdir(main_path)
-                break
 
     def capture_page(page_url):
         r_page=requests.get(page_url,headers=headers)
