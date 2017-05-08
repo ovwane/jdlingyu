@@ -5,7 +5,7 @@
 爬虫 for 单个主题页面 如:http://www.jdlingyu.moe/16289/ --- 你懂的！
 '''
 
-__author__ = 'Otokaze 738158186@qq.com'
+__author__ = 'Otokaze j1002238565@gmail.com'
 
 def jdlingyu():
     import requests,logging,os,re,html,argparse,sys
@@ -19,7 +19,7 @@ def jdlingyu():
     parser.add_argument('-v', '--version', help='Display program version', action='version', version='jdlingyu.py v2.0')
     args=parser.parse_args()
 
-    # 参数检查 - url
+    # 参数 - url
     if type(args.url) != type(None):
         url_pre=args.url.strip().lower()
         re_chk_url=re.compile(r'^http(?:s)?://[^\s]+$')
@@ -33,7 +33,7 @@ def jdlingyu():
         print('You don\'t enter anything!')
         sys.exit(1)
 
-    # 参数检查 - path
+    # 参数 - path
     path_pre=args.output_path.strip()
     current_os=os.name
     if current_os == 'posix':
@@ -69,7 +69,7 @@ def jdlingyu():
             print('Input is not standard Path!')
             sys.exit(1)
 
-    # 参数检查 - log
+    # 参数 - log
     if args.log:
         logger=logging.getLogger(os.path.abspath(__file__))
         logger.setLevel(logging.ERROR)
@@ -130,14 +130,14 @@ def jdlingyu():
         pic=set(pic1) | set(pic2)
 
         # 保存图片
-        # 参数检查 - quiet
+        # 参数 - quiet
         if not args.quiet:
             print('\n------------------------ %s -----------------------' % url)
         for picurl,picname in pic:
             if picurl in ex_pic:
                 continue
             path_pic=os.path.join(path_title,picname)
-            # 参数检查 - quiet
+            # 参数 - quiet
             if not args.quiet:
                 print('url: %s' % picurl)
             try:
