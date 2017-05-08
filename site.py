@@ -43,8 +43,8 @@ def jdlingyu():
             print('Input is not standard Path!')
             sys.exit(1)
     elif current_os == 'nt':
-        re_chk_path=re.compile(r'^[a-zA-Z]:.*')
-        re_chk_path_current=re.compile(r'^[^a-zA-Z][^:].*')
+        re_chk_path=re.compile(r'^([a-zA-Z]:){1}.*')
+        re_chk_path_current=re.compile(r'^([a-zA-Z]:){0}.*')
         chk_path=re.search(re_chk_path,main_path_pre)
         chk_path_current=re.search(re_chk_path_current,main_path_pre)
         if chk_path != None:
@@ -99,7 +99,7 @@ def jdlingyu():
     exclude_2=set(re_exclude_2_all_pic)
     ex_pic=exclude_1 & exclude_2
 
-    def capture_page(page_url):
+    def capture_theme(page_url):
         r_page=requests.get(page_url,headers=headers)
         r_page.encoding='utf-8'
         data_page=r_page.text
@@ -176,7 +176,7 @@ def jdlingyu():
             sys.stdout.write('当前页面段:%s-%s页    线程数:%s    总进度:%.2f%%\r' % (i,i+len(pages_url_part),threads_num,per))
         threads_page=[]
         for page_url in pages_url_part:
-            t=threading.Thread(target=capture_page,args=(page_url,))
+            t=threading.Thread(target=capture_theme,args=(page_url,))
             threads_page.append(t)
         for thr in threads_page:
             thr.start()

@@ -53,8 +53,8 @@ def jdlingyu():
             print('Input is not standard Path!')
             sys.exit(1)
     elif current_os == 'nt':
-        re_chk_path=re.compile(r'^[a-zA-Z]:.*')
-        re_chk_path_current=re.compile(r'^[^a-zA-Z][^:].*')
+        re_chk_path=re.compile(r'^([a-zA-Z]:){1}.*')
+        re_chk_path_current=re.compile(r'^([a-zA-Z]:){0}.*')
         chk_path=re.search(re_chk_path,path_pre)
         chk_path_current=re.search(re_chk_path_current,path_pre)
         if chk_path != None:
