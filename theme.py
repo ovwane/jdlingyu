@@ -124,12 +124,14 @@ def jdlingyu():
         pic=set(pic1) | set(pic2)
 
         # 保存图片
+        # 参数检查 - quiet
         if not args.quiet:
             print('\n------------------------ %s -----------------------' % url)
         for picurl,picname in pic:
             if picurl in ex_pic:
                 continue
             path_pic=os.path.join(path_title,picname)
+            # 参数检查 - quiet
             if not args.quiet:
                 print('url: %s' % picurl)
             try:
