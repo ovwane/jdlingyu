@@ -49,6 +49,9 @@ def jdlingyu():
             path=os.path.join(os.path.abspath('.'), path_pre)
             if not os.path.isdir(path):
                 os.mkdir(path)
+        else:
+            print('Input is not standard Path!')
+            sys.exit(1)
     elif current_os == 'nt':
         re_chk_path=re.compile(r'^[a-zA-Z]:.*')
         re_chk_path_current=re.compile(r'^[^a-zA-Z][^:].*')
@@ -62,6 +65,9 @@ def jdlingyu():
             path=os.path.join(os.path.abspath('.'), path_pre)
             if not os.path.isdir(path):
                 os.mkdir(path)
+        else:
+            print('Input is not standard Path!')
+            sys.exit(1)
 
     # 参数检查 - log
     if args.log:
