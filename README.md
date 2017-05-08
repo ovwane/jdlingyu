@@ -6,6 +6,7 @@
 - site.py支持多线程，默认5个线程，-j参数可指定线程数
 - 线程数不宜过多，会导致http连接数过多，服务器拒绝连接，还可能被拉小黑屋
 - 引入argparse模块，解析命令行参数
+- 自动判断无关图片，改进逻辑，避免重复下载
 
 ## 用法
 - `git clone https://github.com/zfl9/jdlingyu.git`
